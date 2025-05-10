@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const categories = await Category.find();
     res.json(categories);
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error' }); 
   }
 });
 
