@@ -24,14 +24,30 @@ const Home = () => {
     return <p>Loading products...</p>;
   }
 
+  function handleCardPress(category: any) {
+    console.log('Card pressed:', category);
+  }
+  
+  function handleHeartPress(event: any) {
+    event.stopPropagation(); 
+    console.log('Heart icon pressed');
+  }
   return (
     <div style={{ padding: "20px" }}>
-      <h2>Products</h2>
       <ul>
         {products.map((product: any) => (
-          <li key={product._id}>
-            <strong>{product.name}</strong> - ${product.price}
-          </li>
+          <div className="card" onClick={() => handleCardPress(product._id)}>
+          <div className="image-container">
+            <img src={product.imageUrl} alt="Product" className="product-image" />
+            <button className="heart-icon" onClick={handleHeartPress}>
+              <i className="fa fa-heart-o" style={{ color: 'white', fontSize: 18 }}></i>
+            </button>
+          </div>
+          <div className="product-name">{product.name}</div>
+          <div className="product-description">Description goes here</div>
+          <div className="product-price">${product.price}</div>
+        </div>
+        
         ))}
       </ul>
     </div>

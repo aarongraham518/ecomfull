@@ -5,8 +5,10 @@ import { fetchProducts } from "../../api/api";
 import { ProductCard } from "@/components/ui/ProductCard/ProductCard";
 import { Promo } from "../ui/Promo/Promo";
 import { SearchInput } from "../ui/Search/SearchInput";
+import Constants from 'expo-constants';
 
-const BASE_URL = "http://localhost:3000/api";
+const BASE_URL = Constants.expoConfig?.extra?.API_URL;
+console.log(BASE_URL, "<--Local url to use!!!")
 
 export const HomeScreen = () => {
   const [products, setProducts] = useState<any>([]);
