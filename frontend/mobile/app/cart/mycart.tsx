@@ -13,6 +13,7 @@ import { useCart } from '../../store/context/CartContext';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import imageMapper from "../../utils/imageMapper";
+import { useRouter, useLocalSearchParams } from 'expo-router';
 
 // type CartItem = {
 //   id: number;
@@ -35,6 +36,7 @@ type CartItem = {
 const MyCartScreen = () => {
   const { cartItems, subtotal, shippingFee, total, getTotal, removeFromCart, updateCartItemQuantity, getSubtotal } = useCart();
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const router = useRouter();
 
   const renderCartItem: ListRenderItem<CartItem> = ({ item }) => {
     const imageSource = imageMapper[item.imageUrl] || require("../../assets/images/placeholder.png");
@@ -111,7 +113,7 @@ const MyCartScreen = () => {
 
       <TouchableOpacity
         style={styles.checkoutButton}
-        onPress={() => navigation.navigate('Checkout')}
+        onPress={() => router.push('/checkout/checkout')}
       >
         <Text style={styles.checkoutButtonText}>Proceed to Checkout</Text>
       </TouchableOpacity>
