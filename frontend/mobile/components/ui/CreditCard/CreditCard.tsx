@@ -1,7 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 
-const CreditCard = ({ card }) => {
+const card = {
+  balance: 300,
+  last4: 1234,
+  validMonth: 11,
+  validYear: 27,
+  cvv: 131
+  
+}
+const CreditCard = () => {
   return (
     <View style={styles.cardContainer}>
       <ImageBackground style={styles.card}>
@@ -13,12 +21,12 @@ const CreditCard = ({ card }) => {
         <View style={styles.cardDetails}>
           <Text style={styles.cardNumber}>**** **** **** {card.last4}</Text>
           <View style={styles.cardInfo}>
-            <Text style={styles.cardInfoText}>valid thru</Text>
-            <Text style={styles.cardInfoText}>{card.validThru}</Text>
+            <Text style={styles.cardHolderText}>CARD HOLDER NAME</Text>
+            <Text style={styles.cardHolderText}>Valid Thru</Text>
           </View>
           <View style={styles.cardInfo}>
-            <Text style={styles.cardInfoText}>cvv</Text>
-            <Text style={styles.cardInfoText}>{card.cvv}</Text>
+            <Text style={styles.cardHolderName}>Aaron Graham</Text>
+            <Text style={styles.cardInfoText}>{card.validMonth}/{card.validYear}</Text>
           </View>
         </View>
       </ImageBackground>
@@ -33,7 +41,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginVertical: 20,
     alignItems: 'center',
-    backgroundColor: '#5fc382',
+    backgroundColor: '#161616',
     borderRadius: 10
   },
   card: {
@@ -72,9 +80,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
   },
+  cardHolderText:{
+    color: 'white',
+    fontSize: 12,
+  },
+  cardHolderName:{
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: 'white',
+  },
   cardInfoText: {
     color: 'white',
     fontSize: 14,
+    fontWeight: 'bold'
   },
 });
 

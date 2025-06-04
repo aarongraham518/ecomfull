@@ -45,13 +45,6 @@ const MyCartScreen = () => {
         <View style={styles.cartItem}>
           <Image source={imageSource} style={styles.productImage} resizeMode="contain" />
           <View style={styles.itemDetails}>
-            {/* <TouchableOpacity onPress={() => handleQuantityChange('dec')} style={styles.quantityButton}>
-            <Text style={styles.quantityText}>–</Text>
-          </TouchableOpacity> */}
-            {/* <Text style={styles.quantityText}>{quantity}</Text> */}
-            {/* <TouchableOpacity onPress={() => handleQuantityChange('inc')} style={styles.quantityButton}>
-            <Text style={styles.quantityText}>+</Text>
-          </TouchableOpacity> */}
             <Text style={styles.brand}>{item.brand}</Text>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>${item.price}</Text>
@@ -70,7 +63,6 @@ const MyCartScreen = () => {
             <Text style={{ fontWeight: 'bold' }}>X</Text>
           </TouchableOpacity>
         </View>
-
       </>
     )
   }
@@ -95,7 +87,7 @@ const MyCartScreen = () => {
           <Text style={styles.value}>${shippingFee}</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>BagTotal:</Text>
+          <Text style={styles.label}>Total:</Text>
           <Text style={styles.value}>${getTotal().toFixed(2)}</Text>
         </View>
       </View>

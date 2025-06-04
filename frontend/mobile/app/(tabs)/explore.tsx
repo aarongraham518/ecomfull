@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,Text } from "react-native";
 import { HomeScreen } from "@/components/screens/HomeScreen";
 
 const Promo = () => {
   return (
     <View style={styles.container}>
+      <Text>Explore page</Text>
       <HomeScreen />
     </View>
   );

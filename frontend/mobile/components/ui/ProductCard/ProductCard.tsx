@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Importing FontAwesome for heart icon
+import Icon from 'react-native-vector-icons/FontAwesome';
 import imageMapper from "../../../utils/imageMapper";
 import { useRouter } from 'expo-router';
 

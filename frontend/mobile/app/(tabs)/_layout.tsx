@@ -9,7 +9,7 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export const unstable_settings = {
-  initialRouteName: 'index', // 👈 This line is what you're asking about
+  initialRouteName: 'index',
 };
 // MAX-AcJ2-TRxy-RY2C2
 export default function TabLayout() {
@@ -42,6 +42,13 @@ export default function TabLayout() {
         options={{
           title: 'Promo',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settingsScreen"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="gear" color={color} />,
         }}
       />
     </Tabs>
