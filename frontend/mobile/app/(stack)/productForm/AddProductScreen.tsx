@@ -3,13 +3,15 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { useRouter } from 'expo-router';
 
 type DropDownItem = {
   label: string;
   value: string;
 };
 
-export default function AddProductScreen({ navigation }: any) {
+export default function AddProductScreen() {
+  const router = useRouter();
   const [items, setItems] = useState<DropDownItem[]>([]);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -17,7 +19,7 @@ export default function AddProductScreen({ navigation }: any) {
     name: '',
     description: '',
     price: '',
-    category: '',
+    category: null,
     stock: '',
     imageUrl: '',
   });
@@ -50,7 +52,8 @@ export default function AddProductScreen({ navigation }: any) {
   };
 
   const handleSubmit = async () => {
-    console.log(form, '<--Do we have all data values?');
+    // console.log(form, '<--Do we have all data values?');
+    console.log('Submitting form.category =', form.category);
     const { name, description, price, category, stock, imageUrl } = form;
 
     if (!name || !price || !category) {
@@ -63,7 +66,7 @@ export default function AddProductScreen({ navigation }: any) {
         name,
         description,
         price: Number(price),
-        category: category,
+        category: form.category,
         stock: Number(stock),
         imageUrl,
       });
@@ -73,7 +76,7 @@ export default function AddProductScreen({ navigation }: any) {
         name: '',
         description: '',
         price: '',
-        category: '',
+        category: null,
         stock: '',
         imageUrl: '',
       });
@@ -83,6 +86,17 @@ export default function AddProductScreen({ navigation }: any) {
     }
   };
 
+  const cancelProduct = () => {
+    setForm({
+      name: '',
+      description: '',
+      price: '',
+      category: null,
+      stock: '',
+      imageUrl: '',
+    })
+    router.push('/settingsScreen')
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Add a Product</Text>
@@ -114,29 +128,31 @@ export default function AddProductScreen({ navigation }: any) {
         onChangeText={(text) => handleChange('imageUrl', text)}
       />
 
-<DropDownPicker
-  open={open}
-  items={items}
-  setItems={setItems}
-  setOpen={setOpen}
-  value={form.category}
-  onChangeValue={(val: any) => {
-    console.log('Selected Category', val);
-    // handleChange('category', val);
-  }}
-  placeholder="Select category"
-  style={{ borderColor: '#ccc' }}
-/>
+      {/* Oddly enough, lol, we need setValue and onChangeValue
+      Actually, the setValue with the older callback syntax seems
+      to work, lol. */}
+      <DropDownPicker
+        open={open}
+        value={form.category}
+        items={items}
+        setOpen={setOpen}
+        setItems={setItems}
+        setValue={(callback) => {
+          const newValue = callback(form.category);
+          console.log('setValue callback gives:', newValue);
+          handleChange('category', newValue);
+        }}
+        // onChangeValue={(value) => {
+        //   console.log('Selected category:', value);
+        //   handleChange('category', value);
+        // }}
+        placeholder="Select category"
+        style={{ borderColor: '#ccc' }}
+        zIndex={1000}
+      />
 
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => setForm({
-          name: '',
-          description: '',
-          price: '',
-          category: '',
-          stock: '',
-          imageUrl: '',
-        })}>
+        <TouchableOpacity style={styles.cancelButton} onPress={cancelProduct}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 const dummyTrackingData = [
     {
@@ -27,12 +28,13 @@ const dummyTrackingData = [
 ];
 
 export default function TrackingScreen() {
+    const router = useRouter();
+
     const renderItem = ({ item }: any) => (
         <TouchableOpacity style={styles.itemContainer}>
             <View style={styles.trackingIcon}>
                 <MaterialIcons name={item.icon} size={28} color="black" />
-            </View>
-            
+            </View>            
             
             <View style={{ marginLeft: 10 }}>
                 <Text style={styles.trackingNumber}>{item.trackingNumber}</Text>
@@ -65,7 +67,7 @@ export default function TrackingScreen() {
             </View>
 
             {/* Search */}
-            <TextInput style={styles.searchInput} placeholder="Search..." />
+            <TextInput style={styles.searchInput} placeholder="Search Items" />
 
             {/* Main Transit Card */}
             <View style={styles.card}>
@@ -90,8 +92,8 @@ export default function TrackingScreen() {
                 </View>
 
                 <View style={styles.progressRow}>
-                    <Text>25 June, 2021</Text>
-                    <Text>30 June, 2021</Text>
+                    <Text>15 June, 2025</Text>
+                    <Text>20 June, 2025</Text>
                 </View>
 
                 <View style={styles.cityContainer}>
@@ -103,6 +105,10 @@ export default function TrackingScreen() {
             {/* Tracking History */}
             <Text style={styles.sectionTitle}>Tracking</Text>
             <FlatList data={dummyTrackingData} renderItem={renderItem} keyExtractor={item => item.id} />
+        
+        <TouchableOpacity style={styles.homeBtn} onPress={() => router.push('/')}>
+            <Ionicons name="home" size={30} color="black" />
+        </TouchableOpacity>
         </View>
     );
 }
@@ -122,8 +128,9 @@ const styles = StyleSheet.create({
     searchInput: {
         backgroundColor: '#ffffff',
         borderRadius: 10,
-        padding: 15,
+        padding: 16,
         marginBottom: 20,
+        fontSize: 18
     },
     card: {
         backgroundColor: '#ffffff',
@@ -222,4 +229,17 @@ const styles = StyleSheet.create({
         right: 10,
         top: 15,
     },
+    homeBtn:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        backgroundColor: 'white',
+        borderRadius: 40,
+        width: 80,
+        height: 80,
+        position: 'relative',
+        left: '38%',
+        top: -30
+    }
 });

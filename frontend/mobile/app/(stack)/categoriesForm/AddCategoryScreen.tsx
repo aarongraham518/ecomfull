@@ -2,8 +2,10 @@ import CustomTextInput from '@/components/ui/CustomTextInput/CustomTextInput';
 import axios from 'axios';
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 
-export default function AddCategoryScreen({ navigation }: any) {
+export default function AddCategoryScreen() {
+  const router = useRouter();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
 
@@ -41,7 +43,7 @@ export default function AddCategoryScreen({ navigation }: any) {
       />
 
       <View style={styles.buttonRow}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => router.push('/(tabs)/settingsScreen')}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
 

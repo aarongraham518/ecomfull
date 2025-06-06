@@ -19,8 +19,6 @@ export const ProductCardForDetails = ({item}: {item: Product}) => {
   const imageSource = imageMapper[item.imageUrl] || require("../../../assets/images/placeholder.png");
 
   const { name, description, price, _id, imageUrl, category} = item;
-  console.log("WHAT IS ITEM!!!!!!!!!!!!!!!!!!!!!", item);
-  console.log(_id, "<--THE ID WE NEED");
 
   const handleCardPress = (productId: string) => {
     console.log(productId, ' Clicked on Product ID');
@@ -36,7 +34,7 @@ export const ProductCardForDetails = ({item}: {item: Product}) => {
   return (
     <TouchableOpacity style={styles.card} onPress={() => handleCardPress(_id)}>
       <View style={styles.imageContainer}>
-        <Image source={imageSource} style={styles.productImage} resizeMode='center'/>
+        <Image source={imageSource} style={styles.productImage} resizeMode='cover'/>
         <TouchableOpacity onPress={handleHeartPress} style={styles.heartIcon}>
           <Icon name="heart-o" size={18} color="white" />
         </TouchableOpacity>
@@ -71,7 +69,8 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: '100%',
+    height: '90%',
+    marginTop: 7,
     borderRadius: 6,
   },
   heartIcon: {

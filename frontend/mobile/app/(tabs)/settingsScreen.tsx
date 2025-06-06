@@ -6,9 +6,15 @@ const SettingsScreen = () => {
     const router = useRouter();
     return (
         <View style={styles.container}>
-            <Text>SettingsScreen</Text>
-            <View>
-                <Image />
+            <View style={styles.profileContainer}>
+                <Image source={require('../../../mobile/assets/images/myavatar.png')}
+                    style={styles.profileImage}
+                    resizeMode="contain"
+                />
+                <View style={styles.profileNameEmailContainer}>
+                    <Text style={styles.profileName}>Aaron Graham</Text>
+                    <Text style={styles.profileEmail}>aarongraham518@gmail.com</Text>
+                </View>
             </View>
             <View style={styles.settingsContainer}>
                 <TouchableOpacity style={styles.settingOption}>
@@ -22,7 +28,7 @@ const SettingsScreen = () => {
                         <Icon name="angle-right" size={24} color="black" style={{marginTop: 4}}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.settingOption}>
+                <TouchableOpacity style={styles.settingOption} onPress={() => router.push('/confirmationTransit/confirmationTransit')}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={styles.iconSpec}>
                             <Icon name="shopping-bag" size={20} color="black" />
@@ -110,13 +116,41 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
     },
-    settingsContainer:{        
+    profileContainer:{
+        flexDirection: 'row',
+        backgroundColor: 'white',
+        borderRadius: 15,
+        marginBottom: 20,
+        width: '88%'
+    },
+    profileImage:{
+        borderColor: 'grey',
+        borderRadius: 10,
+        width: 80,
+        height: 80,
+    },
+    profileNameEmailContainer:{
+        paddingTop: 10,
+        paddingLeft: 10
+    },
+    profileName: {
+        fontSize: 24,
+        fontWeight: 'bold'
+    },
+    profileEmail:{
+        fontSize: 18,
+        fontWeight: '500',
+        color: 'grey'
+    },
+    settingsContainer:{  
+        backgroundColor: 'white',      
         borderWidth: 2,
         padding: 20,
         borderRadius: 15,
-        borderColor: '#e1dfdf'
+        borderColor: '#e1dfdf',
+        
     },
     settingOption: {
         flexDirection: 'row',

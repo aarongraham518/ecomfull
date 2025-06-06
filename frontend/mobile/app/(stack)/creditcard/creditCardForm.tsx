@@ -49,6 +49,10 @@ const CreditCardForm = () => {
       const fakeSubmit = () => {
         router.push(`/(stack)/products/`);
       };
+
+      const cancelCreditBtn = () => {
+        router.push('/settingsScreen');
+      }
     return (
         <View style={styles.container}>
             <Text>Payment</Text>
@@ -75,11 +79,7 @@ const CreditCardForm = () => {
             </View>
             <View style={styles.buttonRow}>
 
-        <TouchableOpacity style={styles.cancelButton} onPress={() => setForm({
-          cardNumber: '',
-          cardDate: '',
-          cardCvv: '',
-        })}>
+        <TouchableOpacity style={styles.cancelButton} onPress={cancelCreditBtn}>
           <Text style={styles.cancelText}>Cancel</Text>
         </TouchableOpacity>
 
