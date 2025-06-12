@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const cors = require('cors'); 
 require('dotenv').config();  // Load environment variables if you use them later
 
 const productRoutes = require("./routes/product.routes");
-const userRoutes = require("./routes/user.routes");
+const popularRoutes = require("./routes/popularproducts.routes");
+const userRoutes = require("./routes/user.routes"); 
 const orderRoutes = require("./routes/order.routes"); 
 const categoryRoutes = require('./routes/category.routes');
 
@@ -27,6 +28,7 @@ db.once("open", () => console.log("Connected to MongoDB"));
 
 // Groovy api routes :)
 app.use("/api", productRoutes);
+app.use("/api/popularproducts", popularRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes); 
 app.use('/api/categories', categoryRoutes);
