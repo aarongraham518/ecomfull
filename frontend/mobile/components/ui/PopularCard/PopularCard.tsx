@@ -2,19 +2,31 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import imageMapper from "../../../utils/imageMapper";
 
-type ProductCardProps = {
-  imageUrl: string;
-  brand: string;
-  description: string;
-  price: string;
-  onPress: () => void;
-}
+// type ProductCardProps = {
+//   imageUrl: string;
+//   name: string;
+//   description: string;
+//   price: string;
+//   onPress: () => void;
+// }
 
-export const PopularCard = ({ imageUrl, brand, description, price, onPress }: ProductCardProps) => {
-  const imageSource = require("../../../assets/images/placeholder.png");
+type ProductCardProps = {
+  _id: string,
+  name: string;
+  description?: string;
+  price: number;
+  imageUrl: string;
+  category: string
+};
+
+export const PopularCard = ({ item }: {item: ProductCardProps}) => {  
+  
+  const { name, description, price, _id, imageUrl, category} = item;
+  const imageSource = imageMapper[imageUrl] || require("../../../assets/images/placeholder.png");
+  
   return (
     <TouchableOpacity
-      onPress={onPress}
+      // onPress={onPress}
       style={styles.container}
     >
       <Image
@@ -24,7 +36,7 @@ export const PopularCard = ({ imageUrl, brand, description, price, onPress }: Pr
       />
 
       <View style={{ flex: 1 }}>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{brand}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{name}</Text>
         <Text style={{ color: '#888', marginTop: 2 }}>{description}</Text>
         <Text style={{ fontWeight: 'bold', marginTop: 6 }}>${price}</Text>
       </View>

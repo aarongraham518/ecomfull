@@ -3,6 +3,8 @@ const imageMapper: { [key: string]: any } = {
     "shoe2.png": require("../../mobile/assets/images/shoe2.png"),
     "shoe3.png": require("../../mobile/assets/images/shoe3.png"),
     "shoe4.png": require("../../mobile/assets/images/shoe4.png"),
+    "shoe5.png": require("../../mobile/assets/images/dressShoe1.png"),
+    "shoe6.png": require("../../mobile/assets/images/dressShoe2.png"),
     "bag1.png": require("../../mobile/assets/images/bag1.png"),
     "bag2.png": require("../../mobile/assets/images/bag2.png"),
     "bag3.png": require("../../mobile/assets/images/bag3.png"),

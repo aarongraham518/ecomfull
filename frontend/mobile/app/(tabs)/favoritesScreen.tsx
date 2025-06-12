@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList, ActivityIndicator, StyleSheet } from "react-native";
 import axios from "axios";
-import { fetchProducts } from "../../api/api";
+// import { fetchProducts } from "../../api/api";
 import { ProductCard } from "@/components/ui/ProductCard/ProductCard";
-import { Promo } from "../ui/Promo/Promo";
-import { SearchInput } from "../ui/Search/SearchInput";
+// import { Promo } from "../ui/Promo/Promo";//
 import Constants from 'expo-constants';
+import { SearchInput } from "@/components/ui/Search/SearchInput";
+import { useCart } from "@/store/context/CartContext";
+import { Promo } from "@/components/ui/Promo/Promo";
+import { PromoFavorites } from "@/components/ui/Promo/PromoFavorites";
+import { ProductCardForDetails } from "@/components/ui/ProductCardForDetails/ProductCardForDetails";
 
 const BASE_URL = Constants.expoConfig?.extra?.API_URL;
 // console.log(BASE_URL, "<--Local url to use!!!")
 
-export const HomeScreen = () => {
+const FavoritesScreen = () => {
+  const {favorites} = useCart();
+
   const [products, setProducts] = useState<any>([]);
   const [filteredProducts, setFilteredProducts] = useState<any>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +42,7 @@ export const HomeScreen = () => {
         const data = await fetchHomepageProducts();
         setProducts(data);
         setFilteredProducts(data);
-        // console.log(data, "<--data-----");
+        console.log(data, "<--data-----");
       } catch (error) {
         console.error("Failed to load products", error);
       } finally {
@@ -57,20 +63,23 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{paddingHorizontal: 12}}>
       <SearchInput
         placeholder="Search Product"
         value={searchQuery}
         onChangeText={handleSearch}
       />
-      <Promo promoText="30% Off" />
+      <PromoFavorites />
+      </View>
+
       <FlatList
-        data={filteredProducts}
+        data={favorites}
         keyExtractor={(item, index) => item._id ? item._id.toString() : index.toString()}
         contentContainerStyle={styles.flatListContainer}
         numColumns={2}
         // scrollEnabled={false}
         renderItem={({item, index}) => (
-          <ProductCard item={item} key={index}/>
+          <ProductCardForDetails item={item} key={index} />
         )}
       />
     </View>
@@ -82,6 +91,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, justifyContent: "center", alignItems: "center" },
   container: { 
     paddingTop: 50,
+    paddingHorizontal: 10
   },
   flatListContainer:{
     padding: 16
@@ -96,3 +106,5 @@ const styles = StyleSheet.create({
   name: { fontSize: 18, fontWeight: "bold" },
   price: { marginTop: 4, color: "#555" },
 });
+
+export default FavoritesScreen;

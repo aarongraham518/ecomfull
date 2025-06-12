@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Importing FontAwesome for heart icon
 import imageMapper from "../../../utils/imageMapper";
 import { useRouter } from 'expo-router';
+import { useCart } from '@/store/context/CartContext';
 
 type Product = {
   _id: string,
@@ -10,7 +11,8 @@ type Product = {
   description?: string;
   price: number;
   imageUrl: string;
-  category: string
+  category: string;
+  stock?: number;
 };
 
 export const ProductCardForDetails = ({item}: {item: Product}) => {
@@ -20,6 +22,8 @@ export const ProductCardForDetails = ({item}: {item: Product}) => {
 
   const { name, description, price, _id, imageUrl, category} = item;
 
+  const {addToFavorites, removeFromFavorites, isFavorite} = useCart()
+
   const handleCardPress = (productId: string) => {
     console.log(productId, ' Clicked on Product ID');
     router.push(`/(stack)/products/details/${productId}`)
@@ -28,7 +32,11 @@ export const ProductCardForDetails = ({item}: {item: Product}) => {
 
   // Placeholder for the heart press function
   const handleHeartPress = () => {
-    console.log(`${name} added to favorites!`);
+    if (isFavorite(_id)) {
+      removeFromFavorites(_id);
+    } else {
+      addToFavorites(item);
+    }
   };
 
   return (
@@ -36,7 +44,11 @@ export const ProductCardForDetails = ({item}: {item: Product}) => {
       <View style={styles.imageContainer}>
         <Image source={imageSource} style={styles.productImage} resizeMode='cover'/>
         <TouchableOpacity onPress={handleHeartPress} style={styles.heartIcon}>
+        {isFavorite(_id) ? (
+          <Icon name="heart" size={18} color="white" />
+        ) : (
           <Icon name="heart-o" size={18} color="white" />
+        )}
         </TouchableOpacity>
       </View>
 

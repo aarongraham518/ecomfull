@@ -6,6 +6,7 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   const addToCart = (item) => {
     setCartItems(prev => [...prev, item]);
@@ -57,9 +58,37 @@ export const CartProvider = ({ children }) => {
   const shippingFee = 17;
   const getTotal = () => getSubtotal() + shippingFee;
 
+  const addToFavorites = (item) => {
+    setFavorites(prev => {
+      if (prev.some(fav => fav._id === item._id)) return prev; // avoid duplicates
+      return [...prev, item];
+    });
+  };
+
+  const removeFromFavorites = (productId) => {
+    setFavorites(prev => prev.filter(item => item._id !== productId));
+  };
+
+  const isFavorite = (productId) => {
+    return favorites.some(item => item._id === productId);
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity, updateCartItemQuantity, getSubtotal, getTotal, shippingFee }}
+      value={{ 
+        cartItems, 
+        addToCart, 
+        removeFromCart, 
+        updateQuantity, 
+        updateCartItemQuantity, 
+        getSubtotal, 
+        getTotal, 
+        shippingFee,
+        addToFavorites,
+        removeFromFavorites,
+        isFavorite,
+        favorites
+       }}
     >
       {children}
     </CartContext.Provider>

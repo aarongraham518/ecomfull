@@ -1,74 +1,84 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 
-type CategoryFilterProps = {
-  categories?: [];
-  onSelectCategory: (category: string) => void;
-}
+type Category = {
+  _id: string;
+  name: string;
+};
 
-export const CategoryFilter = ({ categories, onSelectCategory }: CategoryFilterProps) => {
-  const [selectedCategory, setSelectedCategory] = useState([]);
+export const CategoryFilter = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [categoryArray, setCategoryArray] = useState([]);
-
   const router = useRouter();
 
-  const handlePress = (category: []) => {
-    setSelectedCategory(category);
-    router.push(`/(stack)/products/${category}`);
+  const handlePress = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    router.push(`/(stack)/products/${categoryId}`);
   };
 
   const BASE_URL = "http://localhost:3000/api";
 
   useEffect(() => {
     const FetchCategories = async () => {
-    try {    
+      try {
         const response = await fetch(`${BASE_URL}/categories`);
         const categoryData = await response.json();
         setCategoryArray(categoryData);
-        console.log(categoryData, ' <--category data');
+        // console.log(categoryData, ' <--category data');
       } catch (error) {
-        console.log('Sorry, Error, ', error)
-    }  
-  } 
-  FetchCategories()
-},[])
+        console.log('Sorry, Error, ', error);
+      }
+    };
+
+    FetchCategories();
+  }, []);
+
+  const renderCategoryItem = ({ item }: {item: Category}) => (
+    <TouchableOpacity
+      onPress={() => handlePress(item._id)}
+      style={{
+        backgroundColor: selectedCategory === item._id ? '#000' : '#fff',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        borderRadius: 20,
+        marginRight: 10,
+        borderWidth: 1,
+        borderColor: '#ccc',
+      }}
+    >
+      <Text
+        style={{
+          color: selectedCategory === item._id ? '#fff' : '#000',
+          fontWeight: '600',
+        }}
+      >
+        {item.name}
+      </Text>
+    </TouchableOpacity>
+  );
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 12 }}>Categories</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {categoryArray.map((category: any) => (
-          <TouchableOpacity
-            key={category}
-            onPress={() => handlePress(category._id)}
-            style={{
-              backgroundColor: selectedCategory === category ? '#000' : '#fff',
-              paddingHorizontal: 16,
-              paddingVertical: 8,
-              borderRadius: 20,
-              marginRight: 10,
-              borderWidth: 1,
-              borderColor: '#ccc',
-            }}
-          >
-            <Text
-              style={{
-                color: selectedCategory === category ? '#fff' : '#000',
-                fontWeight: '600',
-              }}
-            >
-              {category.name}
-            </Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
+      <Text style={styles.title}>Categories</Text>
+      <FlatList
+        horizontal
+        data={categoryArray}
+        renderItem={renderCategoryItem}
+        keyExtractor={(item) => item._id}
+        showsHorizontalScrollIndicator={false}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    marginBottom: 10
-  }
-})
+  container: {
+    marginBottom: 10,
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginBottom: 12,
+  },
+});

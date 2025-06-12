@@ -19,17 +19,17 @@ const ProductScreen = () => {
 
   const { categoryId } = useLocalSearchParams();
   const [products, setProducts] = useState([]);
+  const [popularItems, setPopularItems] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // console.log('WE HAVE A CATID ', categoryId)
     const fetchProductsByCategory = async () => {
       try {
         // http://localhost:3000/api/products/${productId}
         const res = await fetch(`http://localhost:3000/api/products/by-category/${categoryId}`);
         const data = await res.json();
         setProducts(data);
-        console.log(data, " <-- CATEGORY DATA!!!")
+        // console.log(data, " <-- CATEGORY DATA!!!")
       } catch (err) {
         console.error('Failed to fetch products by category:', err);
       } finally {
@@ -42,6 +42,22 @@ const ProductScreen = () => {
     }
   }, [categoryId]);
 
+  useEffect(() => {
+    const fetchPopularItems = async () => {
+
+      try {
+        console.log('getting popular items...');
+        const response = await fetch('http://localhost:3000/api/popularproducts');
+        const data = await response.json();
+        setPopularItems(data);
+      } catch (error) {
+        console.log(`Sorry, there was an error, ${error}`)
+      }    
+    }
+  
+    fetchPopularItems()
+  },[])
+
   if (loading) return <Text>Loading...</Text>;
 
   return (
@@ -52,10 +68,7 @@ const ProductScreen = () => {
         // value={name}
         // onChangeText={setName}
       />
-      <CategoryFilter
-  categories={['Dresses', 'Jackets', 'Jeans', 'Shoes']}
-  onSelectCategory={(cat) => console.log('Selected category:', cat)}
-/>
+      <CategoryFilter />
       <View style={styles.container}>      
         <FlatList         
           data={products}
@@ -68,23 +81,16 @@ const ProductScreen = () => {
         />
 
       </View>
-      <ScrollView style={styles.popularView}>
-        <PopularCard
-          imageUrl="https://link-to-your-sneaker-image.jpg"
-          brand="Axel Arigato"
-          description="Clean 90 Triple Sneakers"
-          price="245.00"
-          onPress={() => console.log("Go to product screen")}
-        />
-        <PopularCard
-          imageUrl="https://link-to-your-sneaker-image.jpg"
-          brand="Inforcers"
-          description="The one and only"
-          price="445.00"
-          onPress={() => console.log("Go to product screen")}
-        />
+      <Text style={{fontSize: 18, marginTop: 5, fontWeight: 'bold'}}>Popular</Text>
+      <View style={styles.popularView}>
         
-      </ScrollView>
+        <FlatList 
+          data={popularItems}
+          renderItem={({ item, index }) => (
+            <PopularCard item={item} key={index}/>
+          )}
+        />        
+      </View>
     </View>
   );
 };

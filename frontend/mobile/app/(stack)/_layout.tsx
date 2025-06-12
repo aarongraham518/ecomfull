@@ -4,7 +4,7 @@ export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerShown: false, // 👈 hides header for all stack screens
+        headerShown: false,
         // presentation: 'modal'
       }}
     />

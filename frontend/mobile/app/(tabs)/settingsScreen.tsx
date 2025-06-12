@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useRouter } from 'expo-router';
+
 const SettingsScreen = () => {
     const router = useRouter();
     return (
@@ -39,7 +40,7 @@ const SettingsScreen = () => {
                         <Icon name="angle-right" size={28} color="black" style={{marginTop: 4}}/>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.settingOption}>
+                <TouchableOpacity style={styles.settingOption} onPress={() => router.push('/(tabs)/favoritesScreen')}>
                     <View style={{ flexDirection: 'row' }}>
                         <View style={styles.iconSpec}>
                             <Icon name="heart" size={19} color="black" />
@@ -169,4 +170,3 @@ const styles = StyleSheet.create({
     }
 })
 export default SettingsScreen;
-
